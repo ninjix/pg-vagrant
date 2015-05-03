@@ -1,0 +1,16 @@
+---
+# file: vars/main.yml
+# these values are default - change for security!
+galera_conf:
+    bind_address: 0.0.0.0
+    dbusers:
+        xtrabackup:
+            username: xtrabackup 
+            password: xtrabackup 
+        docker:
+            username: docker 
+            password: docker 
+            host: 172.17.%
+        clustercheck:
+            username: clustercheck
+            password: clustercheck

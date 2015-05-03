@@ -1,4 +1,9 @@
 ---
-- hosts: all
-  tasks:
+- hosts: galera_cluster
+  sudo: true
+  vars:
+   bootstrap: true
+  roles:
+    - percona
+
   

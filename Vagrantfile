@@ -8,6 +8,15 @@ nodes = {
 
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.auto_detect = true
+    config.cache.scope = :box
+  end
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1536
+    v.cpus = 2
+  end
 
   nodes.each do |prefix, (count, ip_start)|
     count.times do |i|
@@ -23,10 +32,9 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "provisioning/playbook.yml"
+    #ansible.inventory_path = "inventory"
     ansible.groups = {
-      "bootstrap" => ["percona-01"],
-      "node" => ["percona-02"],
-      "all_groups:children" => ["bootstrap", "node"]
-     }
+    		"galera_cluster" => ["percona-01","percona-02","percona-03"]
+    	}
   end
 end
