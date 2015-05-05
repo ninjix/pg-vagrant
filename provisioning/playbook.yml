@@ -5,5 +5,35 @@
    bootstrap: true
   roles:
     - percona
-
-  
+- hosts: loadbalancers
+  sudo: true
+  roles:
+    - role: haproxy
+      haproxy_defaults:
+        mode: tcp
+        options: 
+          - tcplog
+          - dontlognull
+          - redispatch
+        maxconn: 1024
+        timeout:
+          - param: connect 
+            value: 5000ms
+          - param: client
+            value: 50000ms
+          - param: server 
+            value: 50000ms
+        retries: 3
+      haproxy_listen:
+        - name: 'cluster'
+          description: 'Galera is really cool'
+          bind: 
+            - '192.168.32.50:3306'
+          balance: 'roundrobin'
+          servers:
+            - name: 'db-01'
+              ip: '192.168.32.101'
+              port: 3306
+            - name: 'db-02'
+              ip: '192.168.32.102'
+              port: 3306

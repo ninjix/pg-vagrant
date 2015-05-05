@@ -1,0 +1,20 @@
+---
+- name: lb-01
+  box: ubuntu/trusty64
+  cpus: 1
+  ram: 512
+  ip: 192.168.32.50
+  group: loadbalancers
+- name: db-01
+  box: ubuntu/trusty64
+  cpus: 2
+  ram: 1536
+  ip: 192.168.32.101
+  group: galera_cluster
+- name: db-02
+  box: ubuntu/trusty64
+  cpus: 2
+  ram: 1536
+  ip: 192.168.32.102
+  group: galera_cluster
+
